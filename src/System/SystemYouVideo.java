@@ -14,7 +14,7 @@ public interface SystemYouVideo {
      * @param id
      * @return ID
      */
-    Video hasID (String id);
+    Video getVideoByID (String id);
 
     /**
      * Checks if language code is valid.
@@ -63,4 +63,5 @@ public interface SystemYouVideo {
     void addSubtitle(String id, String lang, String url);
 
 
+    void getVideo(String id);
 }

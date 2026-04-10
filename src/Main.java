@@ -15,6 +15,7 @@ public class Main {
     private static final String VIDEO_DOES_NOT_EXIST = "Video does not exist.";
     private static final String NOT_PREMIUM_VIDEO = "Not a premium video.";
     private static final String SUBTITLE_ADDED = "Subtitle added successfully.";
+    private static final String NO_VIDEO_MSG = "Publishable Video %s does not exist.";
     private static final String PODCAST_ADDED = "Podcast added.";
     private static final String PODCAST_ALREADY_EXISTS = "Podcast already exists.";
     private static final String PODCAST_DOES_NOT_EXIST = "Podcast does not exist.";
@@ -84,7 +85,7 @@ public class Main {
         String langCode = in.nextLine().toLowerCase();
 
 
-        if(yv.hasID(iD) != null) {
+        if(yv.getVideoByID(iD) != null) {
             System.out.println(VIDEO_ALREADY_EXISTS);
         }
          if(duration<=0){
@@ -115,7 +116,7 @@ public class Main {
         String subUrl = in.nextLine();
         String subLang = in.nextLine();
 
-        if(yv.hasID(iD)!=null) {
+        if(yv.getVideoByID(iD)!=null) {
             System.out.println(VIDEO_ALREADY_EXISTS);
             return;
 
@@ -144,7 +145,7 @@ public class Main {
         langCode = in.next().toLowerCase();
         uRL = in.next();
 
-        if (yv.hasID(iD) == null){
+        if (yv.getVideoByID(iD) == null){
             System.out.println(VIDEO_DOES_NOT_EXIST);
             return;
         }
@@ -158,6 +159,15 @@ public class Main {
         }
             yv.addSubtitle(iD,langCode,uRL);
             System.out.println(SUBTITLE_ADDED);
+    }
+
+    public static void getvideoCmd(Scanner in, SystemYouVideo yv ){
+        String id = in.nextLine();
+        if(yv.getVideoByID(id)==null){
+            System.out.printf(NO_VIDEO_MSG,id);
+            return;
+        }
+        yv.getVideo(id);
     }
 
 

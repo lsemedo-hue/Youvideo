@@ -4,15 +4,15 @@ import dataStructures.Array;
 import dataStructures.ArrayClass;
 
 public class PremiumVideoClass extends PublishableClass implements PremiumVideo {
-
-
     private Array<Subtitle> subtitles;
+    private String subtitleFile;
+    private String subtitleLanguage;
 
     public PremiumVideoClass(String id, int duration, String url, String publisher, String title, String language, String subtitleUrl, String subtitlelang) {
-        super(id, duration, url);
+        super(id, duration, url),publisher,title,language);
         subtitles = new ArrayClass<>();
-        // Adiciona logo a primeira legenda que veio no comando!
-        this.addSubtitle(subtitlelang, subtitleUrl);
+        this.addSubtitle(subtitlelang, subtitleUrl); //Adiciona logo a primeira legenda que veio no comando!
+
     }
 
     // guarda os subtitulo no array
@@ -21,8 +21,10 @@ public class PremiumVideoClass extends PublishableClass implements PremiumVideo 
     @Override
     public void addSubtitle(String lang, String url) {
         Subtitle newSub = new Subtitle(lang, url);
-
         subtitles.insertLast(newSub);
+    }
+    public String getId(){
+
     }
 
 
