@@ -33,5 +33,8 @@ public abstract class VideoClass implements AllVideo {
         return this.duration;
     }
 
+    public String getFileLocation(){
+        return this.fileLocation;
+    }
 
 }

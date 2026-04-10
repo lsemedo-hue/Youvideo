@@ -59,6 +59,7 @@ public class Main {
             cmd = in.next().toLowerCase();
             switch(cmd){
                 case HELP_CMD -> help();
+                case GET_VIDEO_CMD -> getVideoCmd(in,yv);
                 case CREATE_PUBLISHABLE_CMD -> createPublishableCmd(in,yv);
                 case CREATE_PREMIUM_CMD -> CreatePremiumCmd(in,yv);
                 case ADD_SUBTITLE_CMD -> addSubtitle(in,yv);
@@ -82,11 +83,12 @@ public class Main {
         in.nextLine();
         String publisher = in.nextLine();
         String title = in.nextLine().trim();
-        String langCode = in.nextLine().toLowerCase();
+        String langCode = in.nextLine().toUpperCase();
 
 
         if(yv.getVideoByID(iD) != null) {
             System.out.println(VIDEO_ALREADY_EXISTS);
+            return;
         }
          if(duration<=0){
             System.out.println(INVALID_DURATION);
@@ -112,9 +114,9 @@ public class Main {
         in.nextLine();
         String publisher = in.nextLine();
         String title = in.nextLine();
-        String langCode = in.nextLine();
+        String langCode = in.nextLine().toUpperCase();
         String subUrl = in.nextLine();
-        String subLang = in.nextLine();
+        String subLang = in.nextLine().toUpperCase();
 
         if(yv.getVideoByID(iD)!=null) {
             System.out.println(VIDEO_ALREADY_EXISTS);
@@ -125,7 +127,7 @@ public class Main {
             System.out.println(INVALID_DURATION);
             return;
         }
-         if(yv.isValidLangCode(langCode)){
+         if(yv.isValidLangCode(langCode)){//fixme: rever lógica deste método pq ele não deteta quando é um língua inválida;
             System.out.println(INVALID_LANGUAGE);
             return;
 
@@ -142,7 +144,7 @@ public class Main {
 
         String iD,langCode,uRL;
         iD = in.next();
-        langCode = in.next().toLowerCase();
+        langCode = in.next().toUpperCase();
         uRL = in.next();
 
         if (yv.getVideoByID(iD) == null){
@@ -161,14 +163,26 @@ public class Main {
             System.out.println(SUBTITLE_ADDED);
     }
 
-    public static void getvideoCmd(Scanner in, SystemYouVideo yv ){
+
+    public static void getVideoCmd(Scanner in, SystemYouVideo yv){
         String id = in.nextLine();
-        if(yv.getVideoByID(id)==null){
+        if(yv.getVideoByID(id)==null){//TODO rever lógica  não terminado
             System.out.printf(NO_VIDEO_MSG,id);
             return;
         }
         yv.getVideo(id);
     }
+/*
+    public static void listSubtitleCmd(Scanner in, SystemYouVideo yv){
+        String videoId = in.nextLine();
+        if(yv.getVideoByID(videoId) == null || !yv.isPremium(videoId)){
+            System.out.println("No Premium Video with ID");
+            return;
+        }
+        yv.listSubtitles();
+    }
+
+ */
 
 
     public static void help(){

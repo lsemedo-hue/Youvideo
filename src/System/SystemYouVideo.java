@@ -55,13 +55,16 @@ public interface SystemYouVideo {
     boolean isPremium(String iD);
 
     /**
-     *
-     * @param id
-     * @param lang
-     * @param url
+     *Adds a subtitle into a video
+     * @param id Video id.
+     * @param lang Video language
+     * @param url Video file location
      */
     void addSubtitle(String id, String lang, String url);
 
-
+    /**
+     * Gets a video description.
+     * @param id Video id
+     */
     void getVideo(String id);
 }

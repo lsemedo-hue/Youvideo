@@ -9,9 +9,11 @@ public class PremiumVideoClass extends PublishableClass implements PremiumVideo 
     private String subtitleLanguage;
 
     public PremiumVideoClass(String id, int duration, String url, String publisher, String title, String language, String subtitleUrl, String subtitlelang) {
-        super(id, duration, url),publisher,title,language);
+        super(id, duration, url,publisher,title,language);
         subtitles = new ArrayClass<>();
-        this.addSubtitle(subtitlelang, subtitleUrl); //Adiciona logo a primeira legenda que veio no comando!
+        this.addSubtitle(subtitlelang, subtitleUrl);//Adiciona logo a primeira legenda que veio no comando!
+        this.subtitleFile = subtitleUrl;
+        this.subtitleLanguage = subtitlelang;
 
     }
 
@@ -23,9 +25,7 @@ public class PremiumVideoClass extends PublishableClass implements PremiumVideo 
         Subtitle newSub = new Subtitle(lang, url);
         subtitles.insertLast(newSub);
     }
-    public String getId(){
 
-    }
 
 
 }
