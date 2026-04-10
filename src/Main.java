@@ -62,11 +62,14 @@ public class Main {
                 case CREATE_PUBLISHABLE_CMD -> createPublishableCmd(in,yv);
                 case CREATE_PREMIUM_CMD -> CreatePremiumCmd(in,yv);
                 case ADD_SUBTITLE_CMD -> addSubtitle(in,yv);
+                case CREATE_PODCAST_CMD -> createPodcast(in,yv);
+                case ADD_EPISODE_CMD -> addEpisode(in,yv);
                 case EXIT_CMD-> System.out.println(EXIT_MSG);
                 default -> System.out.println(UNKNOWN_COMMAND_MSG);
             }
             in.nextLine();
         }while(!cmd.equals(EXIT_CMD));
+
         in.close();
     }
 
@@ -153,7 +156,7 @@ public class Main {
             System.out.println(NOT_PREMIUM_VIDEO);
             return;
         }
-         if (yv.isValidLangCode(langCode)){
+         if (!yv.isValidLangCode(langCode)){
             System.out.println(INVALID_SUB_LANGUAGE_MSG);
             return;
         }
@@ -169,7 +172,36 @@ public class Main {
         }
         yv.getVideo(id);
     }
+     // novo metodo
+    public static void createPodcast(Scanner in, SystemYouVideo yv){
 
+        String title = in.nextLine();
+        String name = in.nextLine();
+        String langCode = in.next().toLowerCase();
+
+    if(yv.has_Podcast(title)){
+        System.out.println(PODCAST_ALREADY_EXISTS);
+        return;
+    }
+    if(!yv.isValidLangCode(langCode)) {
+        System.out.println(INVALID_LANGUAGE);
+        return;
+        }
+            yv.addPodcast(title,name,langCode);
+            System.out.println(PODCAST_ADDED);
+    }
+
+  // novo metodo
+    public static void addEpisode(Scanner in, SystemYouVideo yv){
+
+        String name_Podcast = in.nextLine();
+        String ID_episode = in.next();
+        int duration = in.nextInt();
+        String URL = in.next();
+
+
+
+    }
 
     public static void help(){
 

@@ -1,15 +1,8 @@
 package System;
 
-public record Subtitle(String subUrl, String subLanguage) {
+public interface Subtitle {
 
-    public String getLanguage() {
-        return this.subLanguage;
-    }
+    public String getLanguage();
 
-    public String getUrl() {
-        return this.subUrl;
-    }
-
-
-
+    public String getUrl();
 }

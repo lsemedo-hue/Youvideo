@@ -5,12 +5,18 @@ public abstract class VideoClass implements AllVideo {
     private String id;
     private int duration;
     private String fileLocation;
+    private String publisher;
+    private String title;
+    private  String langCode;
 
 
-    protected VideoClass(String id, int duration,String URL){
+    protected VideoClass(String id, int duration,String URL, String publisher, String title, String langCode){
         this.id = id;
         this.duration = duration;
         this.fileLocation = URL;
+        this.publisher = publisher;
+        this.langCode = langCode;
+        this.title = title;
     }
 
     public boolean equals(Object other){
@@ -26,12 +32,30 @@ public abstract class VideoClass implements AllVideo {
     }
 
     public String getId(){
-        return this.id;
+        return id;
     }
 
     public int getDuration(){
-        return this.duration;
+        return duration;
     }
 
+    public String getFileLocation(){
+        return fileLocation;
+    }
+
+
+    public String getPublisher() {
+        return publisher;
+    }
+
+
+    public String getTitle() {
+        return title;
+    }
+
+
+    public String getLanguage() {
+        return langCode;
+    }
 
 }
