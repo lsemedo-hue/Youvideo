@@ -1,17 +1,16 @@
 package System;
 
-public abstract class VideoClassAbstract implements AllVideo {
+public abstract class VideoClass implements AllVideo {
 
     private String id;
     private int duration;
     private String fileLocation;
 
 
-    protected VideoClassAbstract(String id, int duration,String URL){
+    protected VideoClass(String id, int duration,String URL){
         this.id = id;
         this.duration = duration;
         this.fileLocation = URL;
-
     }
 
     public boolean equals(Object other){

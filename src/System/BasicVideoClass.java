@@ -1,6 +1,6 @@
 package System;
 
-public class BasicVideoClass extends PublishClassAbstract{
+public class BasicVideoClass extends PublishableClass{
 
     private String publisher;
     private String title;

@@ -3,7 +3,7 @@ package System;
 import dataStructures.Array;
 import dataStructures.ArrayClass;
 
-public class PremiumVideoClass extends PublishClassAbstract implements PremiumVideo {
+public class PremiumVideoClass extends PublishableClass implements PremiumVideo {
 
 
     private Array<Subtitle> subtitles;
@@ -20,7 +20,7 @@ public class PremiumVideoClass extends PublishClassAbstract implements PremiumVi
     // para cumunicar com o exterior
     @Override
     public void addSubtitle(String lang, String url) {
-        Subtitle newSub = new SubtitleRecord(lang, url);
+        Subtitle newSub = new Subtitle(lang, url);
 
         subtitles.insertLast(newSub);
     }
