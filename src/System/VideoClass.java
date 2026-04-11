@@ -43,6 +43,9 @@ public abstract class VideoClass implements AllVideo {
         return fileLocation;
     }
 
+    public String getFileLocation(){
+        return this.fileLocation;
+    }
 
     public String getPublisher() {
         return publisher;

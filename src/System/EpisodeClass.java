@@ -1,19 +1,7 @@
 package System;
 
 public class EpisodeClass extends VideoClass {
-
-    private String date;
-
-
-    public EpisodeClass(String id, int duration, String URL, String title,
-                        String publisher, String langCode, String date) {
-        super(id,duration,URL,publisher, title, langCode);
-        this.date = date;
+    protected EpisodeClass(String id, int duration, String URL) {
+        super(id, duration, URL);
     }
-
-
-    public String getDate() {
-        return date;
-    }
-
 }
