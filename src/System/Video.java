@@ -39,5 +39,11 @@ public interface Video {
      */
     String getLanguage();
 
+    /**
+     * Compares videos based on their id.
+     * @param other   the reference object with which to compare.
+     * @return true if both have the same ID.
+     */
+    boolean equals(Object other);
 
 }

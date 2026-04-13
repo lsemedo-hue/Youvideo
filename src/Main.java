@@ -11,7 +11,7 @@ public class Main {
     private static final String VIDEO_ALREADY_EXISTS = "Video with this ID already exists.";
     private static final String INVALID_DURATION = "Invalid value.";
     private static final String INVALID_LANGUAGE = "Invalid language type.";
-    private static final String INVALID_SUB_LANGUAGE_MSG = "Invalid language type in subtitle";
+    private static final String INVALID_SUB_LANGUAGE_MSG = "Invalid language type in subtitle.";
     private static final String VIDEO_DOES_NOT_EXIST = "Video does not exist.";
     private static final String NOT_PREMIUM_VIDEO = "Not a premium video.";
     private static final String SUBTITLE_ADDED = "Subtitle added successfully.";
@@ -89,7 +89,7 @@ public class Main {
         String langCode = in.nextLine().toUpperCase();
 
 
-        if(yv.getVideoByID(iD) != null) {
+        if(yv.hasVideo(iD)) {
             System.out.println(VIDEO_ALREADY_EXISTS);
             return;
         }
@@ -102,7 +102,7 @@ public class Main {
             return;
         }
             yv.createPublishable(iD, duration, URL, publisher, title, langCode);
-            System.out.printf(VIDEO_ADDED, iD);
+            System.out.printf(VIDEO_ADDED,iD);
     }
 
     /**
@@ -121,36 +121,34 @@ public class Main {
         String subUrl = in.nextLine();
         String subLang = in.nextLine().toUpperCase();
 
-        if(yv.getVideoByID(iD)!=null) {
+        if(yv.hasVideo(iD)) {
             System.out.println(VIDEO_ALREADY_EXISTS);
             return;
-
         }
          if(duration<=0){
             System.out.println(INVALID_DURATION);
             return;
         }
-         if(yv.isValidLangCode(langCode)){//fixme: rever lógica deste método pq ele não deteta quando é um língua inválida;
+         if(!(yv.isValidLangCode(langCode))){
             System.out.println(INVALID_LANGUAGE);
             return;
 
         }
-         if(yv.isValidLangCode(subLang)){
+         if(!(yv.isValidLangCode(subLang))){
             System.out.println(INVALID_SUB_LANGUAGE_MSG);
             return;
         }
             yv.createPremium(iD, duration, URL, publisher, title, langCode, subUrl, subLang);
-            System.out.printf(PREMIUM_VIDEO_ADDED, iD);
+            System.out.printf(PREMIUM_VIDEO_ADDED,iD);
     }
 
     public static void addSubtitle(Scanner in, SystemYouVideo yv){
-
         String iD,langCode,uRL;
         iD = in.next();
         langCode = in.next().toUpperCase();
         uRL = in.next();
 
-        if (yv.getVideoByID(iD) == null){
+        if (!(yv.hasVideo(iD))){
             System.out.println(VIDEO_DOES_NOT_EXIST);
             return;
         }
@@ -169,7 +167,7 @@ public class Main {
 
     public static void getVideoCmd(Scanner in, SystemYouVideo yv){
         String id = in.nextLine();
-        if(yv.getVideoByID(id)==null){//TODO rever lógica  não terminado
+        if(!(yv.hasVideo(id))){//TODO rever lógica pq get retorna "NOT_FOUND = -1"
             System.out.printf(NO_VIDEO_MSG,id);
             return;
         }
