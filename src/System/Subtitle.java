@@ -1,8 +1,14 @@
 package System;
 
-public interface Subtitle {
+import java.util.Locale;
 
-    public String getLanguage();
+public record Subtitle(String subUrl, Locale subLanguage) {
 
-    public String getUrl();
+    public record getLanguage(){};
+
+    public record  getUrl(){};
+
+
+
+
 }

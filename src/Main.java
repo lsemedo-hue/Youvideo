@@ -1,4 +1,6 @@
 import System.*;
+import dataStructures.Iterator;
+
 import java.util.Scanner;
 import java.util.Locale;
 public class Main {
@@ -9,17 +11,17 @@ public class Main {
     private static final String VIDEO_ADDED = "Video %s created successfully.";
     private static final String PREMIUM_VIDEO_ADDED = "PREMIUM video %s created successfully";
     private static final String VIDEO_ALREADY_EXISTS = "Video with this ID already exists.";
-    private static final String INVALID_DURATION = "Invalid value.";
+    private static final String INVALID_DURATION_MSG = "Invalid value.";
     private static final String INVALID_LANGUAGE = "Invalid language type.";
     private static final String INVALID_SUB_LANGUAGE_MSG = "Invalid language type in subtitle.";
     private static final String VIDEO_DOES_NOT_EXIST = "Video does not exist.";
-    private static final String NOT_PREMIUM_VIDEO = "Not a premium video.";
+    private static final String NOT_PREMIUM_VIDEO = "This operation requires a Premium video.";
     private static final String SUBTITLE_ADDED = "Subtitle added successfully.";
     private static final String NO_VIDEO_MSG = "Publishable Video %s does not exist.";
     private static final String PODCAST_ADDED = "Podcast added.";
     private static final String PODCAST_ALREADY_EXISTS = "Podcast already exists.";
     private static final String PODCAST_DOES_NOT_EXIST = "Podcast does not exist.";
-    private static final String EPISODE_ADDED = "Episode added.";
+    private static final String EPISODE_ADDED = "Episode added successfully.";
     private static final String INVALID_DATE = "Invalid date.";
     private static final String NO_PODCASTS_BY_AUTHOR = "No podcasts by this author.";
     private static final String SHOW_ADDED = "Show added.";
@@ -29,6 +31,11 @@ public class Main {
     private static final String PODCAST_REMOVED = "Podcast removed.";
     private static final String SHOW_REMOVED = "Show removed.";
     private static final String VIDEO_IN_USE = "Video is in use.";
+    private static final String PREMIUM_VIDEO_MSG = "PREMIUM Video %s %d Tile: %s\n";
+    private static final String BASIC_VIDEO_MSG = "Video %s %d Title: %s";
+    private static final String GET_VIDEO_FORMAT_MSG = "File: %s Publisher: %s Language: %s\n";
+    private static final String NO_PREMIUM_VIDEO_MSG = "No Premium Video with ID";
+    private static final String SUB_PRINTF_MSG = "%s (%s)\n";
 
     // Commands
     private static final String EXIT_CMD = "exit";
@@ -63,14 +70,13 @@ public class Main {
                 case CREATE_PUBLISHABLE_CMD -> createPublishableCmd(in,yv);
                 case CREATE_PREMIUM_CMD -> CreatePremiumCmd(in,yv);
                 case ADD_SUBTITLE_CMD -> addSubtitle(in,yv);
+                case SUBTITLES_CMD -> listSubtitleCmd(in,yv);
                 case CREATE_PODCAST_CMD -> createPodcast(in,yv);
-                case ADD_EPISODE_CMD -> addEpisode(in,yv);
                 case EXIT_CMD-> System.out.println(EXIT_MSG);
                 default -> System.out.println(UNKNOWN_COMMAND_MSG);
             }
             in.nextLine();
         }while(!cmd.equals(EXIT_CMD));
-
         in.close();
     }
 
@@ -80,7 +86,7 @@ public class Main {
      * @param yv YouVideo System
      */
     public static void createPublishableCmd(Scanner in, SystemYouVideo yv){
-        String iD = in.next();
+        String id = in.next();
         int duration = in.nextInt();
         String URL = in.next();
         in.nextLine();
@@ -89,29 +95,29 @@ public class Main {
         String langCode = in.nextLine().toUpperCase();
 
 
-        if(yv.hasVideo(iD)) {
+        if(yv.hasVideo(id)) {
             System.out.println(VIDEO_ALREADY_EXISTS);
             return;
         }
          if(duration<=0){
-            System.out.println(INVALID_DURATION);
+            System.out.println(INVALID_DURATION_MSG);
             return;
         }
          if(!yv.isValidLangCode(langCode)){
             System.out.println(INVALID_LANGUAGE);
             return;
         }
-            yv.createPublishable(iD, duration, URL, publisher, title, langCode);
-            System.out.printf(VIDEO_ADDED,iD);
+            yv.createPublishable(id, duration, URL, publisher, title, langCode);
+            System.out.printf(VIDEO_ADDED,id);
     }
 
     /**
      * Creates a premium video.
      * @param in Scanner
-     * @param yv Youvideo network
+     * @param yv YouVideo System
      */
     public static void CreatePremiumCmd(Scanner in, SystemYouVideo yv ){
-        String iD = in.next();
+        String id= in.next();
         int duration = in.nextInt();
         String URL = in.next();
         in.nextLine();
@@ -121,12 +127,12 @@ public class Main {
         String subUrl = in.nextLine();
         String subLang = in.nextLine().toUpperCase();
 
-        if(yv.hasVideo(iD)) {
+        if(yv.hasVideo(id)) {
             System.out.println(VIDEO_ALREADY_EXISTS);
             return;
         }
          if(duration<=0){
-            System.out.println(INVALID_DURATION);
+            System.out.println(INVALID_DURATION_MSG);
             return;
         }
          if(!(yv.isValidLangCode(langCode))){
@@ -138,21 +144,26 @@ public class Main {
             System.out.println(INVALID_SUB_LANGUAGE_MSG);
             return;
         }
-            yv.createPremium(iD, duration, URL, publisher, title, langCode, subUrl, subLang);
-            System.out.printf(PREMIUM_VIDEO_ADDED,iD);
+            yv.createPremium(id, duration, URL, publisher, title, langCode, subUrl, subLang);
+            System.out.printf(PREMIUM_VIDEO_ADDED,id);
     }
 
+    /**
+     * Adds a subtitle to a premium video.
+     * @param in Scanner
+     * @param yv You Video System
+     */
     public static void addSubtitle(Scanner in, SystemYouVideo yv){
-        String iD,langCode,uRL;
-        iD = in.next();
-        langCode = in.next().toUpperCase();
-        uRL = in.next();
+       String id = in.next();
+       String url = in.next();
+       in.nextLine();
+       String langCode = in.nextLine().toUpperCase();
 
-        if (!(yv.hasVideo(iD))){
+        if (!(yv.hasVideo(id))){
             System.out.println(VIDEO_DOES_NOT_EXIST);
             return;
         }
-         if(!yv.isPremium(iD)){
+         if(!yv.isPremium(id)){
             System.out.println(NOT_PREMIUM_VIDEO);
             return;
         }
@@ -160,49 +171,105 @@ public class Main {
             System.out.println(INVALID_SUB_LANGUAGE_MSG);
             return;
         }
-            yv.addSubtitle(iD,langCode,uRL);
+            yv.addSubtitle(id,url,langCode);
             System.out.println(SUBTITLE_ADDED);
     }
 
-
+    /**
+     * Gets video data.
+     * @param in Scanner
+     * @param yv YouVideo
+     */
     public static void getVideoCmd(Scanner in, SystemYouVideo yv){
-        String id = in.nextLine();
-        if(!(yv.hasVideo(id))){//TODO rever lógica pq get retorna "NOT_FOUND = -1"
+        String id = in.next();
+        if(!(yv.hasVideo(id))){
             System.out.printf(NO_VIDEO_MSG,id);
             return;
         }
-        yv.getVideo(id);
+        Video video = yv.getVideoByID(id);
+        if(yv.isPremium(id)){
+            System.out.printf(PREMIUM_VIDEO_MSG,video.getId(),video.getDuration(),((Publishable)video).getTitle());
+            System.out.printf(GET_VIDEO_FORMAT_MSG,video.getFileLocation(),((Publishable)video).getPublisher(),
+                    yv.getCompleteLanguage(((Publishable)video).getLanguage()));
+        }
     }
 
-     // novo metodo
+    /**
+     * Lists all subtitles of a premium video
+     * @param in Scanner
+     * @param yv YouVideo System
+     */
+    public static void listSubtitleCmd(Scanner in, SystemYouVideo yv){
+        String videoId = in.next();
+        if(!yv.hasVideo(videoId)  || !yv.isPremium(videoId)){
+            System.out.println(NO_PREMIUM_VIDEO_MSG);
+            return;
+        }
+        Iterator<Subtitle> it = yv.getSubIterator(videoId);
+        while(it.hasNext()){
+            Subtitle subtitle = it.next();
+            System.out.printf(SUB_PRINTF_MSG,subtitle.subUrl(),subtitle.subLanguage());
+        }
+    }
+
+    /**
+     * Creates a podcast in YouVideo
+     * @param in Scanner
+     * @param yv YouVideo
+     */
     public static void createPodcast(Scanner in, SystemYouVideo yv){
-    String title = in.nextLine();
+        String title = in.next();
+        in.nextLine();
         String name = in.nextLine();
         String langCode = in.next().toLowerCase();
 
-    if(yv.has_Podcast(title)){
-        System.out.println(PODCAST_ALREADY_EXISTS);
-        return;
-    }
-    if(!yv.isValidLangCode(langCode)) {
-        System.out.println(INVALID_LANGUAGE);
-        return;
+        if(yv.hasPodcast(title)){
+            System.out.println(PODCAST_ALREADY_EXISTS);
+            return;
         }
-            yv.addPodcast(title,name,langCode);
-            System.out.println(PODCAST_ADDED);
+        if(!yv.isValidLangCode(langCode)) {
+            System.out.println(INVALID_LANGUAGE);
+            return;
+        }
+        yv.addPodcast(title,name,langCode);
+        System.out.println(PODCAST_ADDED);
     }
 
-  // novo metodo
+    /**
+     * Adds an episode to a podcast.
+     * @param in Scanner
+     * @param yv YouVideo
+     */
     public static void addEpisode(Scanner in, SystemYouVideo yv){
-
-        String name_Podcast = in.nextLine();
-        String ID_episode = in.next();
+        String podcastTitle = in.next();
+        String episodeId = in.next();
         int duration = in.nextInt();
-        String URL = in.next();
-
-
+        String url = in.next();
+        in.nextLine();
+        String date = in.nextLine();
+        if(!yv.hasPodcast(podcastTitle)){
+            System.out.println(PODCAST_DOES_NOT_EXIST);
+            return;
+        }
+        if(yv.hasEpisode(episodeId,podcastTitle)){
+            System.out.println("Episode ID already exists in the system.");
+            return;
+        }
+        if(duration>=0){
+            System.out.println(INVALID_DURATION_MSG);
+        }
+        if(!yv.isValidDate(date,podcastTitle)){
+            System.out.println("Episode date must be >= than latest episode date.");
+            return;
+        }
+        yv.addEpisode(podcastTitle,episodeId,duration,url,date);
+        System.out.println(EPISODE_ADDED);
 
     }
+
+
+
+
 
     public static void help(){
 

@@ -1,23 +1,35 @@
 package System;
 
 public interface Podcast {
+    /**
+     * Gets Author name.
+     * @return Author name
+     */
+    Author getAuthor();
 
     /**
-     *
-     * @return
+     * Gets language Code.
+     * @return language code
+     */
+    String getLangCode();
+
+    /**
+     * gets podcast title
+     * @return Podcast title.
      */
     String getTitle();
 
     /**
-     *
-     * @return
+     * Checks if a video exist.
+     * @param EpisodeId Episode id
+     * @return true if podcast exists.
      */
-    String getNamePublish();
+    boolean existEpisode(String EpisodeId);
 
     /**
-     *
+     * Compares two strings//todo come up with a better comment
+     * @param date
      * @return
      */
-    String getLangCode();
-
+   int  isGreaterDate(String date);
 }

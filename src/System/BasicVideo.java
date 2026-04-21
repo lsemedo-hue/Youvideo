@@ -1,4 +1,4 @@
 package System;
 
-public interface BasicVideo extends AllVideo{
+public interface BasicVideo extends Publishable{
 }

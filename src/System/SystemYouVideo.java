@@ -1,6 +1,15 @@
 package System;
 
+import dataStructures.Iterator;
+
 public interface SystemYouVideo {
+    /**
+     * Checks if a video already exists.
+     * @param id Video ID
+
+     * @return true if exists
+     */
+    boolean hasVideo(String id);
 
     /**
      * Devolve ID
@@ -18,18 +27,18 @@ public interface SystemYouVideo {
 
     /**
      * Creates a publishable video.
-     * @param iD ID of the video
+     * @param id ID of the video
      * @param duration Duration of the video
      * @param url File location
      * @param publisher Name of the publisher
      * @param title Name of the title
      * @param langCode Language code
      */
-    void createPublishable(String iD, int duration, String url, String publisher, String title, String langCode);
+    void createPublishable(String id, int duration, String url, String publisher, String title, String langCode);
 
     /**
      * Creates a premium video.
-     * @param iD Id of the video
+     * @param id Id of the video
      * @param duration Duration of the video
      * @param url File location
      * @param publisher Name of the publisher
@@ -38,14 +47,14 @@ public interface SystemYouVideo {
      * @param subUrl Subtitle file location
      * @param subLang Subtitle language code
      */
-    void createPremium(String iD, int duration, String url, String publisher, String title, String langCode, String subUrl, String subLang);
+    void createPremium(String id, int duration, String url, String publisher, String title, String langCode, String subUrl, String subLang);
 
     /**
-     * Check if the video is premium.
-     * @param iD
+     *
+     * @param id
      * @return
      */
-    boolean isPremium(String iD);
+    boolean isPremium(String id);
 
     /**
      *Adds a subtitle into a video
@@ -55,35 +64,49 @@ public interface SystemYouVideo {
      */
     void addSubtitle(String id, String lang, String url);
 
-    /**
-     * Gets a video description.
-     * @param id Video id
-     */
-    void getVideo(String id);
 
     /**
-     * add a new podcast
-     * @param title
-     * @param name
-     * @param langCode
+     * Returns language code in full
+     * @param langCode Language code
+     * @return
+     */
+    String getCompleteLanguage(String langCode);
+
+    /**
+     * Returns a subtitle iterator.
+     * @param id ID
+     * @return Subtitle iterator
+     */
+    Iterator<Subtitle> getSubIterator(String id);
+
+    /**
+     * Checks if there's a podcast with given title.
+     * @param title Podcast title
+     * @return true if podcast exists.
+     */
+    boolean hasPodcast(String title);
+
+    /**
+     * Adds podcast into the system.
+     * @param title Podcast title
+     * @param name Name of the author
+     * @param langCode Language of the podcast
      */
     void addPodcast(String title, String name, String langCode);
 
     /**
-     * Check if the podcast title already exists.
-     * @param title
-     * @return
+     * Checks if an episode exits.
+     * @param episodeId Episode id
+     * @param podcastTitle Podcast title
+     * @return true if episode exists
      */
-    boolean has_Podcast(String title);
+    boolean hasEpisode(String episodeId,String podcastTitle);
 
     /**
-     * add a new episode in podcast
-     * @param name_podcast
-     * @param ID
-     * @param duration
-     * @param URL
-     * @param data
+     * Checks if a release date of an episode is valid.
+     * @param date date
+     * @param podcastTitle Podcast title
+     * @return
      */
-    void addEpisode(String name_podcast,String ID, int duration, String URL, String data);
-
+    boolean isValidDate(String date,String podcastTitle);
 }

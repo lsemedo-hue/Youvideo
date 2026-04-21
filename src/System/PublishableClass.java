@@ -1,16 +1,19 @@
 package System;
 
 
-public abstract class PublishableClass extends VideoClass implements Publishable {
+public  class PublishableClass extends AbstractVideo implements Publishable {
     private String title;
     private String publisher;
     private String language;
 
-    protected PublishableClass(String id, int duration, String URL,String title,String publisher, String language) {
+    public PublishableClass(String id, int duration, String URL,String title,String publisher, String language) {
         super(id, duration, URL);
         this.title = title;
         this.publisher = publisher;
         this.language = language;
+    }
+    public PublishableClass(String id){
+        super(id);
     }
 
     public String getPublisher(){

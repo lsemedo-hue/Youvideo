@@ -1,22 +1,19 @@
 package System;
 
-public abstract class VideoClass implements AllVideo {
+public abstract class AbstractVideo implements AllVideo {
 
     private String id;
     private int duration;
     private String fileLocation;
-    private String publisher;
-    private String title;
-    private  String langCode;
 
 
-    protected VideoClass(String id, int duration,String URL, String publisher, String title, String langCode){
+    protected AbstractVideo(String id, int duration, String URL){
         this.id = id;
         this.duration = duration;
         this.fileLocation = URL;
-        this.publisher = publisher;
-        this.langCode = langCode;
-        this.title = title;
+    }
+    protected AbstractVideo(String id){
+        this.id = id;
     }
 
     public boolean equals(Object other){
@@ -32,30 +29,15 @@ public abstract class VideoClass implements AllVideo {
     }
 
     public String getId(){
-        return id;
+        return this.id;
     }
 
     public int getDuration(){
-        return duration;
+        return this.duration;
     }
 
     public String getFileLocation(){
-        return fileLocation;
-    }
-
-
-    public String getPublisher() {
-        return publisher;
-    }
-
-
-    public String getTitle() {
-        return title;
-    }
-
-
-    public String getLanguage() {
-        return langCode;
+        return this.fileLocation;
     }
 
 }
